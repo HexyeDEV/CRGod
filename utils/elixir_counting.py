@@ -1,4 +1,5 @@
 import time
+from threading import Event
 
 TIME_FOR_ELIXIR = 2.8
 TIME_FOR_ELIXIR_DOUBLE = 1.4
@@ -15,12 +16,22 @@ ENEMY_ELIXIR = 5
 OWN_COLLECTORS = 0
 ENEMY_COLLECTORS = 0
 
-def start_elixir_counting():
+def reset_state():
+    global OWN_ELIXIR, ENEMY_ELIXIR, OWN_COLLECTORS, ENEMY_COLLECTORS
+    OWN_ELIXIR = 5
+    ENEMY_ELIXIR = 5
+    OWN_COLLECTORS = 0
+    ENEMY_COLLECTORS = 0
+
+def start_elixir_counting(stop_event: Event):
     global OWN_ELIXIR, ENEMY_ELIXIR
     current_tick = 0
     OWN_ELIXIR = 5
     ENEMY_ELIXIR = 5
-    while True:
+    while not stop_event.is_set():
+        if current_tick > 660:
+            reset_state()
+            break
         if current_tick < DOUBLE_AFTER:
             time.sleep(TIME_FOR_ELIXIR)
             current_tick += TIME_FOR_ELIXIR
