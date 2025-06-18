@@ -29,7 +29,7 @@ def start_elixir_counting(stop_event: Event):
     OWN_ELIXIR = 5
     ENEMY_ELIXIR = 5
     while not stop_event.is_set():
-        if current_tick > 660:
+        if current_tick > 700:
             reset_state()
             break
         if current_tick < DOUBLE_AFTER:
